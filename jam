@@ -1,0 +1,21 @@
+local modem = peripheral.find("modem", function(name, obj) return obj.isWireless() end)
+if not modem then
+    error("No wireless modem detected", 0)
+end
+local close = false
+if not modem.isOpen(gps.CHANNEL_GPS) then
+    modem.open(gps.CHANNEL_GPS)
+    close = true
+end
+
+while true do
+    local e, _, recvChannel, sendChannel, msg = os.pullEventRaw()
+    if e == "modem_message" and recvChannel == gps.CHANNEL_GPS and msg == "PING" then
+        modem.transmit(sendChannel, gps.CHANNEL_GPS, {{}, {}, {}})
+    elseif e == "terminate" then
+        if close then
+            modem.close(gps.CHANNEL_GPS)
+        end
+        return
+    end
+end
