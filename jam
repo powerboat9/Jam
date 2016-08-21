@@ -12,6 +12,7 @@ while true do
     local e, _, recvChannel, sendChannel, msg = os.pullEventRaw()
     if e == "modem_message" and recvChannel == gps.CHANNEL_GPS and msg == "PING" then
         modem.transmit(sendChannel, gps.CHANNEL_GPS, {{}, {}, {}})
+        print("Jam ID: " .. (tostring(sendChannel) or "[ERR]"))
     elseif e == "terminate" then
         if close then
             modem.close(gps.CHANNEL_GPS)
