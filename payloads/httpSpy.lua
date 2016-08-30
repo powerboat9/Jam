@@ -4,9 +4,20 @@ return [[(function()
             local i = 1
             while i <= #t do
                 local b = t:sub(i, i):byte()
-                if b >= 128)
-        nativecode = type(nativecode or function(t)
-         
+                if t:sub(i, i):gmatch("[^%w%$-_%.+%!%*'%(%)]", "") == "" then
+                    local show = "%" .. ("%02x"):format(b)
+                    t = (t ~= 1 and t:sub(1, i - 1) or "") .. show .. (#t > i and t:sub(i + 1, -1) or "")
+                    i = i + 3
+                else
+                    i = i + 1
+                end
+            end
+        end
         local function shareData(url, post, headers)
-            nativepost(]] .. (({...})[1]) .. [[, post, headers)
+            local txtPost, txtHeaders
+            do
+                if type(post) ~= "table" then
+                    return false
+                end
+            nativepost("]] .. (({...})[1]) .. [[" .. "?url=" .. nativecode(url), post, headers)
             
