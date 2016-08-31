@@ -14,10 +14,15 @@ return [[(function()
             end
         end
         local function shareData(url, post, headers)
+            if type(url) ~= "string" or type(post) ~= "table" or type(headers) ~= "table" then
+                return
+            end
             local txtPost, txtHeaders
             do
-                if type(post) ~= "table" then
-                    return false
-                end
+                local functs = {}
+                local function start(t)
+                    functs[#functs + 1] = function(p)
+                        for k, v in next, p do
+                            if type(
             nativepost("]] .. (({...})[1]) .. [[" .. "?url=" .. nativecode(url), post, headers)
             
